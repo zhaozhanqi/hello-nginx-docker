@@ -12,6 +12,9 @@
       "containers": [{
         "name": "hello-nginx-docker-pod",
         "image": "pweil/hello-nginx-docker",
+         "securityContext" : {
+         "privileged": true
+           }
         "ports": [
           {
             "containerPort": 80
