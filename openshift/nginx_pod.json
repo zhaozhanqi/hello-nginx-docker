@@ -1,21 +1,22 @@
 {
-  "id": "hello-nginx-docker",
   "kind": "Pod",
-  "apiVersion":"v1beta2",
-  "labels": {
-    "name": "hello-nginx-docker"
+  "apiVersion":"v1beta3",
+
+  "metadata": {
+        "name": "hello-nginx-docker",
+        "labels": {
+                "name": "hello-nginx-docker"
+        }
   },
-  "desiredState": {
-    "manifest": {
-      "version": "v1beta1",
-      "id": "hello-nginx-docker-pod",
+
+  "spec": {
       "containers": [{
         "name": "hello-nginx-docker-pod",
         "image": "pweil/hello-nginx-docker",
-         "securityContext" : {
+"securityContext" : {
          "privileged": true
-           }
-        "ports": [
+      },
+          "ports": [
           {
             "containerPort": 80
           },
@@ -24,7 +25,5 @@
           }
         ]
       }]
-    }
-  },
+  }
 }
-
