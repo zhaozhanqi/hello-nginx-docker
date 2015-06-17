@@ -1,11 +1,19 @@
 {
-    "kind": "Service",
-    "apiVersion": "v1beta1",
-    "id": "hello-nginx-secure",
-    "port": 27443,
-    "containerPort": 443,
-    "selector": {
-        "name": "hello-nginx-docker"
-    },
-}
-
+            "kind": "Service",
+            "apiVersion": "v1beta3",
+            "metadata": {
+                "name": "hello-nginx-secure"
+            },
+            "spec": {
+                "selector": {
+                    "name": "hello-nginx-docker"
+                },
+                "ports": [
+                    {
+                        "protocol": "TCP",
+                        "port": 27443,
+                        "targetPort": 443
+                    }
+                ]
+            }
+        }

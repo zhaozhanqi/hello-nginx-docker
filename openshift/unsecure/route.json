@@ -8,7 +8,7 @@
     "host": "www.example.com",
     "to": {
      "kind":"Service",
-    "name": "hello-nginx"
+    "name": "hello-nginx-unsecure"
      }
     }
 }
