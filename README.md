@@ -9,13 +9,18 @@ traffic with custom certificates.
 ## Building the docker image
     docker build -t pweil/hello-nginx-docker .
 ## Create the cert key and ca using:
+    CA=/etc/openshift/master
     oadm create-server-cert --signer-cert=$CA/ca.crt --signer-key=$CA/ca.key --signer-serial=$CA/ca.serial.txt  --hostnames='*.cloudapps.cluster.local' --cert=cloudapps.crt --key=cloudapps.key
 ##  Create the CA:
     cat cloudapps.crt cloudapps.key $CA/ca.crt > cloudapps.router.pem
 ##  you can check the CA info using :
     openssl x509 -in cloudapps.router.pem -inform PEM -noout -text
+##  Create service account for router
+    echo '{"kind":"ServiceAccount","apiVersion":"v1","metadata":{"name":"router"}}'  oc create -f -
+##  Edit the privileged of scc add users
+    system:serviceaccount:default:router
 ##  create router using default pem
-    oadm router --default-cert=cloudapps.router.pem --credentials=/etc/openshift/master/openshift-router.kubeconfig --images='registry.access.redhat.com/openshift3/ose-${component}:${version}'
+    oadm router --default-cert=cloudapps.router.pem --credentials=/etc/openshift/master/openshift-router.kubeconfig --images='registry.access.redhat.com/openshift3/ose-${component}:${version}' --service-account=router
 ## Verifying the docker image
     docker run pweil/hello-nginx-docker
     docker ps
