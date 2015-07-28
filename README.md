@@ -10,7 +10,7 @@ traffic with custom certificates.
     docker build -t pweil/hello-nginx-docker .
 ## Create the cert key and ca using:
     CA=/etc/openshift/master
-    oadm create-server-cert --signer-cert=$CA/ca.crt --signer-key=$CA/ca.key --signer-serial=$CA/ca.serial.txt  --hostnames='*.cloudapps.cluster.local' --cert=cloudapps.crt --key=cloudapps.key
+    oadm ca create-server-cert --signer-cert=$CA/ca.crt --signer-key=$CA/ca.key --signer-serial=$CA/ca.serial.txt  --hostnames='*.cloudapps.cluster.local' --cert=cloudapps.crt --key=cloudapps.key
 ##  Create the CA:
     cat cloudapps.crt cloudapps.key $CA/ca.crt > cloudapps.router.pem
 ##  you can check the CA info using :
