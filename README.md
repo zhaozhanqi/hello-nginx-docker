@@ -16,7 +16,7 @@ traffic with custom certificates.
 ##  you can check the CA info using :
     openssl x509 -in cloudapps.router.pem -inform PEM -noout -text
 ##  Create service account for router
-    echo '{"kind":"ServiceAccount","apiVersion":"v1","metadata":{"name":"router"}}'  oc create -f -
+    echo '{"kind":"ServiceAccount","apiVersion":"v1","metadata":{"name":"router"}}'| oc create -f -
 ##  Edit the privileged of scc add users
     system:serviceaccount:default:router
 ##  create router using default pem
