@@ -5,7 +5,29 @@ enviroment.  It is meant for testing purposes only, the certificates contained w
 It is important to note that routing for beta 1 relies on SNI for custom certificate delivery.  In future iterations
 it is planned to be able to offer custom frontend implementations which will allow applications to serve non-sni
 traffic with custom certificates.
+## Create key and edge route json file
+   openssl req -newkey rsa:1024 -nodes -sha256 -keyout www.edge.com.key -keyform PEM -out www.edge.com.req -outform PEM
+   OPENSSL_CONF=ca.cnf openssl ca -batch -notext -in www.edge.com.req -out www.edge.com.pem
 
+servicename="hello-nginx";
+echo "
+apiVersion: v1
+kind: Route
+metadata:
+  name:  secured-edge-route
+spec:
+  host: www.edge.com
+  to:
+    kind: Service
+    name: $servicename
+  tls:
+    termination: edge
+    key: |
+$(openssl rsa -in www.edge.com.key | sed 's/^/      /')
+    certificate: |
+$(openssl x509 -in www.edge.com.pem | sed 's/^/      /')
+
+" > www-edge-com.yaml; 
 ## Building the docker image
     docker build -t pweil/hello-nginx-docker .
 ## Create the cert key and ca using:
